@@ -1,1 +1,1 @@
-This repository is a project requirement for web development CS 5610
+This repository is a project requirement for Web Development, CS 5610
