@@ -1,1 +1,1 @@
-# webdev-project-shukla-gundecha
+This repository is a project requirement for web development CS 5610
