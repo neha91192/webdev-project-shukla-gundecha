@@ -1,4 +1,4 @@
-package com.thefoodexplorer.javaserver.models;
+package com.neu.webdev2018summer1.thefoodexplorer.models;
 
 public class User {
 
