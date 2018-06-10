@@ -8,7 +8,7 @@
     <artifactId>webdev-project-shukla-gundecha</artifactId>
     <name>Parent</name>
 		<version>0.0.1-SNAPSHOT</version>
-		<packaging>jar</packaging>
+		<packaging>pom</packaging>
 
     <modules>
         <module>javaserver</module>
