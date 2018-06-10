@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 
-	<groupId>com.neu.webdev2018summer1</groupId>
+	<!--<groupId>com.neu.webdev2018summer1</groupId>
     <artifactId>webdev-project-shukla-gundecha</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>The Food Explorer project</name>
+    <name>The Food Explorer project</name>-->
 
     <modules>
         <module>javaserver</module>
