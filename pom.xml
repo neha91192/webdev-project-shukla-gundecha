@@ -10,7 +10,7 @@
       </parent>
 
 	<groupId>com.neu.webdev2018summer1</groupId>
-    <artifactId>webdev-project-shukla-gundecha</artifactId>
+    <artifactId>parent</artifactId>
     <name>Parent</name>
 		<version>0.0.1-SNAPSHOT</version>
 		<packaging>pom</packaging>
@@ -21,14 +21,14 @@
 
 
 
-<!--<build>
+		<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-	</build>-->
+	</build>
 
 
 </project>
