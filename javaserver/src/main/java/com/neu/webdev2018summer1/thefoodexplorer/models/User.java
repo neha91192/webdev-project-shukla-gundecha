@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
@@ -21,7 +23,7 @@ public class User {
 	private Date dateOfBirth;
 	private String emailId;
 	private String mobileNumber;
-	private userType userType;
+	private UserType userType;
 
 	public int getUserId() {
 		return userId;
@@ -79,11 +81,11 @@ public class User {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public userType getUserType() {
+	public UserType getUserType() {
 		return userType;
 	}
 
-	public void setUserType(userType userType) {
+	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
 
