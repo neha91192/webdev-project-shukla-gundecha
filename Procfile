@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/javaserver-0.0.1-SNAPSHOT.jar
+web: java -cp target/classes/:target/dependency/* com.neu.webdev2018summer1.thefoodexplorer.TheFoodExplorer
