@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/dependency/* com.neu.webdev2018summer1.thefoodexplorer.TheFoodExplorer
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
