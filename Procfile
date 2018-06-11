@@ -1,1 +1,1 @@
-web: java -jar /app/tmp/cache/.m2/repository/com/neu/javaserver/0.0.1-SNAPSHOT/javaserver-0.0.1-SNAPSHOT.jar
+web: java -cp target/classes/com/neu/webdev2018summer1/thefoodexplorer/
