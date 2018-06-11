@@ -1,12 +1,14 @@
 package com.neu.webdev2018summer1.thefoodexplorer.models;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Owner extends User {
 	private String ownerId;
 	private int term;
-	private int restaurantId;
+	@OneToOne
+	private Restaurant restaurant;
 
 	public String getOwnerId() {
 		return ownerId;
@@ -24,12 +26,22 @@ public class Owner extends User {
 		this.term = term;
 	}
 
-	public int getRestaurantId() {
-		return restaurantId;
+	/**
+	 * Sets restaurant for this owner
+	 * 
+	 * @return
+	 */
+	public Restaurant getRestaurant() {
+		return restaurant;
 	}
 
-	public void setRestaurantId(int restaurantId) {
-		this.restaurantId = restaurantId;
+	/**
+	 * Gets restaurant for this owner
+	 * 
+	 * @param restaurant
+	 */
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 
 }

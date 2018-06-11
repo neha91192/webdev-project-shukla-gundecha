@@ -1,13 +1,16 @@
 package com.neu.webdev2018summer1.thefoodexplorer.models;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
 
@@ -24,6 +27,16 @@ public class User {
 	private String emailId;
 	private String mobileNumber;
 	private UserType userType;
+	/**
+	 * One user can request for multiple reservations
+	 */
+	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	private List<Reservation> reservations;
+	/**
+	 * One user write multiple reviews
+	 */
+	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	private List<Review> reviews;
 
 	public int getUserId() {
 		return userId;
@@ -87,6 +100,42 @@ public class User {
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
+	}
+
+	/**
+	 * Returns reservation list
+	 * 
+	 * @return
+	 */
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	/**
+	 * Sets reservation list
+	 * 
+	 * @param reservations
+	 */
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	/**
+	 * Gets list of reviews written by this user
+	 * 
+	 * @return
+	 */
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	/**
+	 * Sets list of reviews written by this user
+	 * 
+	 * @param reviews
+	 */
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 }
