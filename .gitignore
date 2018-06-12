@@ -13,3 +13,4 @@ poc/src/test/java/com/example/poc/.DS_Store
 *.jar
 *.xml
 *.MF
+.project
