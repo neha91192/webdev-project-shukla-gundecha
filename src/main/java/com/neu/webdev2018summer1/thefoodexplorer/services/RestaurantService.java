@@ -1,6 +1,17 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.RestaurantRepository;
 
@@ -38,9 +50,48 @@ public class RestaurantService {
 	 * @return
 	 */
 	@GetMapping("/api/restaurant")
-	public Iterable<Restaurant> findAllRestaurants() {
-		return restaurantRepository.findAll();
+	public void findAllRestaurants() {
+		URL url;
+		try {
+			url = new URL("https://developers.zomato.com/api/v2.1/search?entity_type=city&q=boston&start=1");
+			HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("Content-Type", "application/json");
+			
+			Map<String, String> parameters = new HashMap<>();
+			parameters.put("user-key", "8cde1fa8bdef3553e358b75b2144cda0");
+			con.setRequestProperty("user-key", "8cde1fa8bdef3553e358b75b2144cda0");
+			con.setDoOutput(true);
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			
+			String json = response.toString();
+			System.out.println(json);
+			
+			
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//return restaurantRepository.findAll();
+		
+		
 	}
+	
+	
 
 	/**
 	 * Returns Restaurant details by Id

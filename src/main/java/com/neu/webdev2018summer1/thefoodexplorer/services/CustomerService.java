@@ -2,6 +2,8 @@ package com.neu.webdev2018summer1.thefoodexplorer.services;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +33,7 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 
-	@PutMapping("api/customer/{customerId}")
+	@PutMapping("/api/customer/{customerId}")
 	public Customer updateCustomer(@PathVariable("customerId") int id, @RequestBody Customer newCustomer) {
 		Optional<Customer> data = customerRepository.findById(id);
 		if (data.isPresent()) {
@@ -53,5 +55,10 @@ public class CustomerService {
 	@DeleteMapping("/api/customer/{customerId}")
 	public void deleteCustomer(@PathVariable("customerId") int id) {
 		customerRepository.deleteById(id);
+	}
+
+	@GetMapping("/api/customer/profile")
+	public Customer profile(HttpSession session) {
+		return (Customer) session.getAttribute("currentUser");
 	}
 }

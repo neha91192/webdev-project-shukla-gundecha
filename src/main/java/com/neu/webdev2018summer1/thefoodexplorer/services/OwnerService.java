@@ -2,6 +2,8 @@ package com.neu.webdev2018summer1.thefoodexplorer.services;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,6 +55,11 @@ public class OwnerService {
 	@DeleteMapping("/api/owner/{ownerId}")
 	public void deleteOwner(@PathVariable("ownerId") int id) {
 		ownerRepository.deleteById(id);
+	}
+
+	@GetMapping("/api/owner/profile")
+	public Owner profile(HttpSession session) {
+		return (Owner) session.getAttribute("currentUser");
 	}
 
 }

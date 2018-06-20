@@ -2,6 +2,8 @@ package com.neu.webdev2018summer1.thefoodexplorer.services;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,5 +54,10 @@ public class BloggerService {
 	@DeleteMapping("/api/blogger/{bloggerId}")
 	public void deleteBlogger(@PathVariable("bloggerId") int id) {
 		bloggerRepository.deleteById(id);
+	}
+
+	@GetMapping("/api/blogger/profile")
+	public Blogger profile(HttpSession session) {
+		return (Blogger) session.getAttribute("currentUser");
 	}
 }
