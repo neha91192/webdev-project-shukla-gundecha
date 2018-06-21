@@ -1,6 +1,7 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class LoginService {
 	private PasswordEncoder passwordEncoder;
 
 	@PostMapping("/api/login")
-	public User login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+	public User login(@RequestBody User user, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		User fetchedUser = null;
 		Iterable<User> result = userRepository.findUserByUsername(user.getUsername());
@@ -30,6 +32,7 @@ public class LoginService {
 		for (User userval : result) {
 			if (passwordEncoder.matches(user.getPassword(), userval.getPassword())) {
 				fetchedUser = userval;
+				session.setAttribute("currentUser", fetchedUser);
 				return fetchedUser;
 			}
 

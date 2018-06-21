@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,7 +59,8 @@ public class CustomerService {
 	}
 
 	@GetMapping("/api/customer/profile")
-	public Customer profile(HttpSession session) {
+	public Customer profile(HttpServletRequest request, HttpSession session) {
+
 		return (Customer) session.getAttribute("currentUser");
 	}
 }

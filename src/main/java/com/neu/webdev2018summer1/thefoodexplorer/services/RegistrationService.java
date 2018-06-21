@@ -44,6 +44,7 @@ public class RegistrationService {
 			customer.setUsername(user.getUsername());
 			customer.setPassword(passwordEncoder.encode(user.getPassword()));
 			customer.setUserType(UserType.Customer);
+			session.setAttribute("currentUser", customer);
 			newUser = customerRepository.save(customer);
 
 		}
@@ -54,6 +55,7 @@ public class RegistrationService {
 			blogger.setUsername(user.getUsername());
 			blogger.setPassword(passwordEncoder.encode(user.getPassword()));
 			blogger.setUserType(UserType.Blogger);
+			session.setAttribute("currentUser", blogger);
 			newUser = bloggerRepository.save(blogger);
 
 		}
@@ -64,10 +66,10 @@ public class RegistrationService {
 			owner.setUsername(user.getUsername());
 			owner.setPassword(passwordEncoder.encode(user.getPassword()));
 			owner.setUserType(UserType.Owner);
+			session.setAttribute("currentUser", owner);
 			newUser = ownerRepository.save(owner);
 
 		}
-		session.setAttribute("currentUser", newUser);
 		return newUser;
 	}
 
