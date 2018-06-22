@@ -44,9 +44,13 @@ public class CustomerService {
 			customer.setPassword(newCustomer.getPassword());
 			customer.setEmailId(newCustomer.getEmailId());
 			customer.setDateOfBirth(newCustomer.getDateOfBirth());
-			customer.setLocationArea(newCustomer.getLocationArea());
+			customer.setBio(newCustomer.getBio());
+			customer.setCity(newCustomer.getCity());
+			customer.setCountry(newCustomer.getCountry());
+			customer.setPincode(newCustomer.getPincode());
+			customer.setState(newCustomer.getState());
+			customer.setStreet(newCustomer.getStreet());
 			customer.setMobileNumber(newCustomer.getMobileNumber());
-
 			customerRepository.save(customer);
 			return customer;
 		} else

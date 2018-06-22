@@ -1,5 +1,6 @@
 package com.neu.webdev2018summer1.thefoodexplorer.models;
 
+import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
@@ -28,6 +29,62 @@ public class User {
 	private String emailId;
 	private String mobileNumber;
 	private UserType userType;
+	private String street;
+	private String city;
+	private String country;
+	private String state;
+	private String pincode;
+	private Blob bio;
+	
+	public String getStreet() {
+		return street;
+	}
+
+	public Blob getBio() {
+		return bio;
+	}
+
+	public void setBio(Blob bio) {
+		this.bio = bio;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+
+	
 	/**
 	 * One user can request for multiple reservations
 	 */
