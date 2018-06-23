@@ -1,5 +1,6 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neu.webdev2018summer1.thefoodexplorer.models.Media;
+import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.MediaRepository;
+import com.neu.webdev2018summer1.thefoodexplorer.repositories.RestaurantRepository;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class MediaService {
 	@Autowired
 	MediaRepository mediaRepository;
+	@Autowired
+	RestaurantRepository restaurantRepository;
 
 	/**
 	 * Creates Media object in database
@@ -27,8 +32,18 @@ public class MediaService {
 	 * @param Media
 	 * @return
 	 */
-	@PostMapping("/api/media")
-	public Media createMedia(@RequestBody Media media) {
+	@PostMapping("/api/restaurant/{restaurantId}/media")
+	public Media createMedia(@RequestBody Media media, @PathVariable("restaurantId") int id) {
+		Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
+		if (restaurantData.isPresent()) {
+			Restaurant restaurant = restaurantData.get();
+			media.setRestaurant(restaurant);
+		} else {
+			Restaurant restaurantObj = new Restaurant();
+			restaurantObj.setRestaurantId(id);
+			restaurantRepository.save(restaurantObj);
+			media.setRestaurant(restaurantObj);
+		}
 		return mediaRepository.save(media);
 	}
 
@@ -56,6 +71,19 @@ public class MediaService {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Returns media details by Id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/api/restaurant/{restaurantId}/media")
+	public List<Media> findAllMediaForRestaurant(@PathVariable("restaurantId") int id) {
+		String mediaType = "Menu";
+		return (List<Media>) mediaRepository.findMediaForRestaurant(id, mediaType);
+
 	}
 
 	/**

@@ -29,6 +29,12 @@ public class Media {
 	 */
 	private String image;
 
+	private Integer imageOrder;
+
+	private String src;
+
+	private String imageType;
+
 	/**
 	 * Returns restaurant instance
 	 * 
@@ -81,5 +87,29 @@ public class Media {
 	 */
 	public void setMediaId(int mediaId) {
 		this.mediaId = mediaId;
+	}
+
+	public Integer getImageOrder() {
+		return imageOrder;
+	}
+
+	public void setImageOrder(Integer imageOrder) {
+		this.imageOrder = imageOrder;
+	}
+
+	public String getSrc() {
+		return src;
+	}
+
+	public void setSrc(String src) {
+		this.src = src;
+	}
+
+	public String getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}
 }
