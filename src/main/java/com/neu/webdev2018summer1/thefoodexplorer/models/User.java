@@ -149,13 +149,11 @@ public class User {
 	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
 	private List<Review> reviews;
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+
 
 	public String getPassword() {
 		return password;
