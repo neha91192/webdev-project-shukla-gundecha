@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
@@ -33,8 +34,15 @@ public class CustomerService {
 	}
 
 	@GetMapping("/api/customer")
-	public Iterable<Customer> findAllCustomers() {
-		return customerRepository.findAll();
+	public Iterable<Customer> findAllCustomers(@RequestParam(name = "firstName", required = false) String firstName,
+			@RequestParam(name = "lastName", required = false) String lastName) {
+		Iterable<Customer> customers = null;
+		if (firstName == null && lastName == null) {
+			customers = customerRepository.findAll();
+		} else {
+
+		}
+		return customers;
 	}
 
 	@PutMapping("/api/customer/{customerId}")
@@ -58,7 +66,7 @@ public class CustomerService {
 		} else
 			return null;
 	}
-	
+
 	@PutMapping("/api/customer/password/{customerId}")
 	public Customer updateCustomerPassword(@PathVariable("customerId") int id, @RequestBody Customer newCustomer) {
 		Optional<Customer> data = customerRepository.findById(id);
@@ -81,7 +89,6 @@ public class CustomerService {
 		} else
 			return null;
 	}
-	
 
 	@DeleteMapping("/api/customer/{customerId}")
 	public void deleteCustomer(@PathVariable("customerId") int id) {
