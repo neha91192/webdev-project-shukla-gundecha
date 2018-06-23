@@ -3,6 +3,7 @@ package com.neu.webdev2018summer1.thefoodexplorer.models;
 
 import java.sql.Blob;
 
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -88,12 +89,6 @@ public class User {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-
-
-	
-	
-	
-	
 	public String getStreet() {
 		return street;
 	}
