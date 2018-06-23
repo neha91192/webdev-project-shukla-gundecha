@@ -1,18 +1,37 @@
 package com.neu.webdev2018summer1.thefoodexplorer.models;
 
+
 import java.sql.Blob;
+
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
 
 @Entity
@@ -20,12 +39,14 @@ import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userId;
+	private Integer userId;
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
-	private Date dateOfBirth;
+	@DateTimeFormat(iso = ISO.DATE)
+	@JsonFormat(pattern="MM-dd-yyyy")
+	private java.util.Date dateOfBirth;
 	private String emailId;
 	private String mobileNumber;
 	private UserType userType;
@@ -34,17 +55,54 @@ public class User {
 	private String country;
 	private String state;
 	private String pincode;
-	private Blob bio;
+	private String bio;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+		@JoinTable(name = "follower", 
+		joinColumns = { @JoinColumn(name = "userId") }, 
+		inverseJoinColumns = { @JoinColumn(name = "followerId") })
+	List<User> followers;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="follower",
+	 	joinColumns=@JoinColumn(name="followerId"),
+	 	inverseJoinColumns=@JoinColumn(name="userId"))
+	List<User> following;
+	
+	public List<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+
+	public List<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+
+	
+	
+	
 	
 	public String getStreet() {
 		return street;
 	}
 
-	public Blob getBio() {
+	public String getBio() {
 		return bio;
 	}
 
-	public void setBio(Blob bio) {
+	public void setBio(String bio) {
 		this.bio = bio;
 	}
 
@@ -128,11 +186,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public Date getDateOfBirth() {
+	public java.util.Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(java.util.Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
