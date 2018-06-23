@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,8 @@ import com.neu.webdev2018summer1.thefoodexplorer.repositories.CustomerRepository
 public class CustomerService {
 	@Autowired
 	CustomerRepository customerRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@PostMapping("/api/customer")
 	public Customer createCustomer(@RequestBody Customer customer) {
@@ -41,17 +44,44 @@ public class CustomerService {
 			Customer customer = data.get();
 			customer.setFirstName(newCustomer.getFirstName());
 			customer.setLastName(newCustomer.getLastName());
-			customer.setPassword(newCustomer.getPassword());
 			customer.setEmailId(newCustomer.getEmailId());
 			customer.setDateOfBirth(newCustomer.getDateOfBirth());
-			customer.setLocationArea(newCustomer.getLocationArea());
+			customer.setBio(newCustomer.getBio());
+			customer.setCity(newCustomer.getCity());
+			customer.setCountry(newCustomer.getCountry());
+			customer.setPincode(newCustomer.getPincode());
+			customer.setState(newCustomer.getState());
+			customer.setStreet(newCustomer.getStreet());
 			customer.setMobileNumber(newCustomer.getMobileNumber());
-
 			customerRepository.save(customer);
 			return customer;
 		} else
 			return null;
 	}
+	
+	@PutMapping("/api/customer/password/{customerId}")
+	public Customer updateCustomerPassword(@PathVariable("customerId") int id, @RequestBody Customer newCustomer) {
+		Optional<Customer> data = customerRepository.findById(id);
+		if (data.isPresent()) {
+			Customer customer = data.get();
+			customer.setFirstName(newCustomer.getFirstName());
+			customer.setLastName(newCustomer.getLastName());
+			customer.setPassword(passwordEncoder.encode(newCustomer.getPassword()));
+			customer.setEmailId(newCustomer.getEmailId());
+			customer.setDateOfBirth(newCustomer.getDateOfBirth());
+			customer.setBio(newCustomer.getBio());
+			customer.setCity(newCustomer.getCity());
+			customer.setCountry(newCustomer.getCountry());
+			customer.setPincode(newCustomer.getPincode());
+			customer.setState(newCustomer.getState());
+			customer.setStreet(newCustomer.getStreet());
+			customer.setMobileNumber(newCustomer.getMobileNumber());
+			customerRepository.save(customer);
+			return customer;
+		} else
+			return null;
+	}
+	
 
 	@DeleteMapping("/api/customer/{customerId}")
 	public void deleteCustomer(@PathVariable("customerId") int id) {
