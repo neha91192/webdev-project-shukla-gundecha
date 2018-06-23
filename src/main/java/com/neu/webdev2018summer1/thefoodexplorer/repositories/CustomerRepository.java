@@ -8,6 +8,5 @@ import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
 
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 	@Query("SELECT u FROM User u WHERE u.firstName =:firstName OR u.lastName =:lastName")
-	Iterable<Customer> search(@Param("username") String username, @Param("firstName") String firstName,
-			@Param("lastName") String lastName);
+	Iterable<Customer> search(@Param("firstName") String firstName, @Param("lastName") String lastName);
 }

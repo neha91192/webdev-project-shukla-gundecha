@@ -40,7 +40,7 @@ public class CustomerService {
 		if (firstName == null && lastName == null) {
 			customers = customerRepository.findAll();
 		} else {
-
+			customers = customerRepository.search(firstName, lastName);
 		}
 		return customers;
 	}
