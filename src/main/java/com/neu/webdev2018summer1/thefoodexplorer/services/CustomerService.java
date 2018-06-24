@@ -115,7 +115,7 @@ public class CustomerService {
 			Optional<Customer> userToFollow = customerRepository.findById(userId);
 			if (follower.isPresent()) {
 				userToFollow.get().getFollowers().add(follower.get());
-				follower.get().getFollowing().add(userToFollow.get());
+//				follower.get().getFollowing().add(userToFollow.get());
 				customerRepository.save(userToFollow.get());
 				return follower.get();
 			}
