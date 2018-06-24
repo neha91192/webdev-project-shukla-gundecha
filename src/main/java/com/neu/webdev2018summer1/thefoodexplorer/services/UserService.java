@@ -7,7 +7,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neu.webdev2018summer1.thefoodexplorer.models.User;
@@ -44,4 +50,50 @@ public class UserService {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		return user;
 	}
+	
+	@GetMapping("api/user")
+	public Iterable<User> findAllUsers() {
+		return repository.findAll();
+	}
+	
+	@PostMapping("api/user")
+	public User createUser(@RequestBody User user) {
+		return repository.save(user); //insert data into the table in database
+	}
+	
+	@DeleteMapping("api/user/{userId}")
+	public void deleteUser(@PathVariable("userId") int id) {
+		repository.deleteById(id);
+	}
+	
+//	@PutMapping("api/user/{userId}")
+//	public User updateUser(@PathVariable("userId") int userId, @RequestBody User newUser) {
+//		Optional<User> data = repository.findById(userId);
+//		if(data.isPresent()) {
+//			User user = data.get();
+//			user.setUsername(newUser.getUsername());
+//			user.setPassword(newUser.getPassword());
+//			user.setFirstName(newUser.getFirstName());
+//			user.setLastName(newUser.getLastName());
+//			user.setPhone(newUser.getPhone());
+//			user.setDateOfBirth(newUser.getDateOfBirth());
+//			user.setEmail(newUser.getEmail());
+//			user.setRole(newUser.getRole());
+//			repository.save(user);	
+//			return user;
+//		}	
+//		else 
+//			return null;
+//	}
+	
+	@GetMapping("api/user/{userId}")
+    public User findUserById(@PathVariable("userId") int userId){
+    		Optional<User> data = repository.findById(userId);
+    		System.out.println("user:"+data);
+    		if(data.isPresent())
+    			return data.get();
+    		else 
+    			return null;
+    }
+	
 }
