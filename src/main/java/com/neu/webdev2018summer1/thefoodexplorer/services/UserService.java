@@ -2,6 +2,7 @@ package com.neu.webdev2018summer1.thefoodexplorer.services;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -29,6 +30,18 @@ public class UserService {
 				return null;
 			}
 		}
+		return user;
+	}
+
+	public User profile(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
+		User user = (User) session.getAttribute("currentUser");
+		if (user != null && user.getUserId() != null) {
+			Optional<User> userList = repository.findById(user.getUserId());
+			if (userList.isPresent()) {
+				return userList.get();
+			}
+		}
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		return user;
 	}
 }
