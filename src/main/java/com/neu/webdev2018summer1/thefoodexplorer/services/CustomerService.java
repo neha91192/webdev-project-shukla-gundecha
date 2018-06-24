@@ -30,7 +30,9 @@ public class CustomerService {
 
 	@PostMapping("/api/customer")
 	public Customer createCustomer(@RequestBody Customer customer) {
-		return customerRepository.save(customer);
+		Customer newUser = customerRepository.save(customer);
+		newUser.setPassword(null);
+		return newUser;
 	}
 
 	@GetMapping("/api/customer")
@@ -39,8 +41,10 @@ public class CustomerService {
 		Iterable<Customer> customers = null;
 		if (firstName == null && lastName == null) {
 			customers = customerRepository.findAll();
+		} else if (firstName != null && lastName != null) {
+			customers = customerRepository.searchAND(firstName, lastName);
 		} else {
-			customers = customerRepository.search(firstName, lastName);
+			customers = customerRepository.searchOR(firstName, lastName);
 		}
 		return customers;
 	}
@@ -62,6 +66,7 @@ public class CustomerService {
 			customer.setStreet(newCustomer.getStreet());
 			customer.setMobileNumber(newCustomer.getMobileNumber());
 			customerRepository.save(customer);
+			customer.setPassword(null);
 			return customer;
 		} else
 			return null;
@@ -97,7 +102,6 @@ public class CustomerService {
 
 	@GetMapping("/api/customer/profile")
 	public Customer profile(HttpServletRequest request, HttpSession session) {
-
 		return (Customer) session.getAttribute("currentUser");
 	}
 }

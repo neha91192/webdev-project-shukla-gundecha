@@ -7,6 +7,10 @@ import org.springframework.data.repository.query.Param;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
 
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
-	@Query("SELECT u FROM User u WHERE u.firstName =:firstName OR u.lastName =:lastName")
-	Iterable<Customer> search(@Param("firstName") String firstName, @Param("lastName") String lastName);
+	@Query("SELECT u.firstName, u.lastName, u.userId, u.bio, u.city FROM Customer u WHERE u.firstName LIKE CONCAT(:firstName,'%') OR u.lastName LIKE CONCAT(:lastName,'%')")
+	Iterable<Customer> searchOR(@Param("firstName") String firstName, @Param("lastName") String lastName);
+
+	@Query("SELECT u.firstName, u.lastName, u.userId, u.bio, u.city FROM Customer u WHERE u.firstName LIKE CONCAT(:firstName,'%') AND u.lastName LIKE CONCAT(:lastName,'%')")
+	Iterable<Customer> searchAND(@Param("firstName") String firstName, @Param("lastName") String lastName);
+
 }
