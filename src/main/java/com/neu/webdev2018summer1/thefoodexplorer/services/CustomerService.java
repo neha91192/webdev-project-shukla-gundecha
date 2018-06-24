@@ -1,5 +1,6 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -106,9 +107,8 @@ public class CustomerService {
 		return (Customer) session.getAttribute("currentUser");
 	}
 
-	@PutMapping("/api/follow/{userId}")
-	public Customer addFollower(@PathVariable("customerId") int userId, HttpSession session,
-			HttpServletResponse response) {
+	@PostMapping("/api/follow/{userId}")
+	public Customer addFollower(@PathVariable("userId") int userId, HttpSession session, HttpServletResponse response) {
 		Customer user = (Customer) session.getAttribute("currentUser");
 		if (user != null && user.getUserId() != null) {
 			Optional<Customer> follower = customerRepository.findById(user.getUserId());
@@ -116,12 +116,39 @@ public class CustomerService {
 			if (follower.isPresent()) {
 				userToFollow.get().getFollowers().add(follower.get());
 				follower.get().getFollowing().add(userToFollow.get());
+				customerRepository.save(userToFollow.get());
 				return follower.get();
 			}
 		}
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		return user;
 
+	}
+
+	@GetMapping("/api/follower")
+	public List<Customer> findFollowers(HttpSession session, HttpServletResponse response) {
+		Customer user = (Customer) session.getAttribute("currentUser");
+		if (user != null && user.getUserId() != null) {
+			Optional<Customer> customer = customerRepository.findById(user.getUserId());
+			if (customer.isPresent()) {
+				return customer.get().getFollowers();
+			}
+		}
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		return null;
+	}
+
+	@GetMapping("/api/following")
+	public List<Customer> findFollowing(HttpSession session, HttpServletResponse response) {
+		Customer follower = (Customer) session.getAttribute("currentUser");
+		if (follower != null && follower.getUserId() != null) {
+			Optional<Customer> followUser = customerRepository.findById(follower.getUserId());
+			if (followUser.isPresent()) {
+				return followUser.get().getFollowing();
+			}
+		}
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		return null;
 	}
 
 }

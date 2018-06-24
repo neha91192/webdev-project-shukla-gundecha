@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Customer extends User {
 	private String customerId;
@@ -21,11 +23,13 @@ public class Customer extends User {
 	}
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JsonIgnore()
 	@JoinTable(name = "follower", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
 			@JoinColumn(name = "followerId") })
 	List<Customer> followers;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JsonIgnore()
 	@JoinTable(name = "follower", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
 	List<Customer> following;
 
