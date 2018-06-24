@@ -39,9 +39,9 @@ public class CustomerService {
 	public Iterable<Customer> findAllCustomers(@RequestParam(name = "firstName", required = false) String firstName,
 			@RequestParam(name = "lastName", required = false) String lastName) {
 		Iterable<Customer> customers = null;
-		if (firstName == null && lastName == null) {
+		if (firstName == "" && lastName == "") {
 			customers = customerRepository.findAll();
-		} else if (firstName != null && lastName != null) {
+		} else if (firstName != "" && lastName != "") {
 			customers = customerRepository.searchAND(firstName, lastName);
 		} else {
 			customers = customerRepository.searchOR(firstName, lastName);
