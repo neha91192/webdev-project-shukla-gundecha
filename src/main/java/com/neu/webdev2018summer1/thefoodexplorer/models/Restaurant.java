@@ -26,7 +26,7 @@ public class Restaurant {
 	/**
 	 * Owner of this restaurant
 	 */
-	@OneToOne(mappedBy = "restaurant", cascade = CascadeType.PERSIST)
+	@OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
 	private Owner owner;
 	/**
 	 * Name of this restaurant
@@ -43,17 +43,17 @@ public class Restaurant {
 	/**
 	 * One restaurant has many reservations
 	 */
-	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Reservation> reservations;
 	/**
 	 * One restaurant has many reviews
 	 */
-	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Review> reviews;
 	/**
 	 * One restaurant has many media
 	 */
-	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Media> media;
 	/**
 	 * Many restaurants fall in several categories

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -52,6 +53,7 @@ public class Review {
 	/**
 	 * Records time when this review was given
 	 */
+	@CreationTimestamp
 	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private LocalDate age;
 

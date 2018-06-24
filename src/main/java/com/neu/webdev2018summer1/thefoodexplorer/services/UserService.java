@@ -26,8 +26,6 @@ public class UserService {
 			Optional<User> userList = repository.findById(user.getUserId());
 			if (userList.isPresent()) {
 				return userList.get();
-			} else {
-				return null;
 			}
 		}
 		return user;

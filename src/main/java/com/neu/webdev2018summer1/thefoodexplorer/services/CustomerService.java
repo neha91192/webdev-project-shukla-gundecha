@@ -151,4 +151,21 @@ public class CustomerService {
 		return null;
 	}
 
+	@PutMapping("/api/follow/{userId}")
+	public Customer removeFollower(@PathVariable("userId") int userId, HttpSession session,
+			HttpServletResponse response) {
+		Customer user = (Customer) session.getAttribute("currentUser");
+		if (user != null && user.getUserId() != null) {
+			Optional<Customer> follower = customerRepository.findById(user.getUserId());
+			Optional<Customer> userToUnFollow = customerRepository.findById(userId);
+			if (follower.isPresent()) {
+				userToUnFollow.get().getFollowers().remove(follower.get());
+				customerRepository.save(userToUnFollow.get());
+				return follower.get();
+			}
+		}
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		return user;
+	}
+
 }

@@ -1,6 +1,11 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,7 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
+import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Review;
+import com.neu.webdev2018summer1.thefoodexplorer.repositories.RestaurantRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.ReviewRepository;
 
 @RestController
@@ -20,6 +28,8 @@ import com.neu.webdev2018summer1.thefoodexplorer.repositories.ReviewRepository;
 public class ReviewService {
 	@Autowired
 	ReviewRepository reviewRepository;
+	@Autowired
+	RestaurantRepository restaurantRepository;
 
 	/**
 	 * Creates review object in database
@@ -27,9 +37,33 @@ public class ReviewService {
 	 * @param review
 	 * @return
 	 */
-	@PostMapping("/api/review")
-	public Review createReview(@RequestBody Review review) {
-		return reviewRepository.save(review);
+	@PostMapping("/api/restaurant/{restaurantId}/review")
+	public Review createReview(@RequestBody Review review, HttpSession session,
+			@PathVariable("restaurantId") int restaurantId, HttpServletResponse response) {
+
+		Customer user = (Customer) session.getAttribute("currentUser");
+		if (user != null) {
+			com.neu.webdev2018summer1.thefoodexplorer.models.User newUser = new com.neu.webdev2018summer1.thefoodexplorer.models.User();
+			newUser.setUserId(user.getUserId());
+			review.setUser(newUser);
+			Restaurant restaurant = new Restaurant();
+			restaurant.setRestaurantId(restaurantId);
+			review.setRestaurant(restaurant);
+			if (restaurant.getReviews() == null) {
+				List<Review> reviews = new ArrayList<Review>();
+				reviews.add(review);
+				restaurant.setReviews(reviews);
+			} else {
+				restaurant.getReviews().add(review);
+			}
+			restaurantRepository.save(restaurant);
+
+			return review;
+		} else {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return null;
+		}
+
 	}
 
 	/**
@@ -40,6 +74,27 @@ public class ReviewService {
 	@GetMapping("/api/review")
 	public Iterable<Review> findAllReviews() {
 		return reviewRepository.findAll();
+	}
+
+	/**
+	 * Returns all Review in database
+	 * 
+	 * @return
+	 */
+	@GetMapping("/api/customer/{userId}/review")
+	public Iterable<Review> findAllReviewsForCustomer(@PathVariable("userId") int userId) {
+
+		return reviewRepository.searchReviewByCustomer(userId);
+	}
+
+	/**
+	 * Returns all Review in database
+	 * 
+	 * @return
+	 */
+	@GetMapping("/api/restaurant/{restaurantId}/review")
+	public Iterable<Review> findAllReviewsForRestaurant(@PathVariable("restaurantId") int restaurantId) {
+		return reviewRepository.searchReviewByRestaurant(restaurantId);
 	}
 
 	/**
