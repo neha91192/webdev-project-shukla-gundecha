@@ -104,4 +104,5 @@ public class CustomerService {
 	public Customer profile(HttpServletRequest request, HttpSession session) {
 		return (Customer) session.getAttribute("currentUser");
 	}
+
 }

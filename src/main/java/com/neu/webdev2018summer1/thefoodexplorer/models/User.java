@@ -1,34 +1,19 @@
 package com.neu.webdev2018summer1.thefoodexplorer.models;
 
-
-import java.sql.Blob;
-
-
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -46,7 +31,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	@DateTimeFormat(iso = ISO.DATE)
-	@JsonFormat(pattern="MM-dd-yyyy")
+	@JsonFormat(pattern = "MM-dd-yyyy")
 	private java.util.Date dateOfBirth;
 	private String emailId;
 	private String mobileNumber;
@@ -57,19 +42,16 @@ public class User {
 	private String state;
 	private String pincode;
 	private String bio;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
-		@JoinTable(name = "follower", 
-		joinColumns = { @JoinColumn(name = "userId") }, 
-		inverseJoinColumns = { @JoinColumn(name = "followerId") })
+	@JoinTable(name = "follower", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+			@JoinColumn(name = "followerId") })
 	List<User> followers;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="follower",
-	 	joinColumns=@JoinColumn(name="followerId"),
-	 	inverseJoinColumns=@JoinColumn(name="userId"))
+	@JoinTable(name = "follower", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
 	List<User> following;
-	
+
 	public List<User> getFollowers() {
 		return followers;
 	}
@@ -89,6 +71,7 @@ public class User {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
 	public String getStreet() {
 		return street;
 	}
@@ -137,7 +120,6 @@ public class User {
 		this.pincode = pincode;
 	}
 
-	
 	/**
 	 * One user can request for multiple reservations
 	 */
@@ -152,8 +134,6 @@ public class User {
 	public Integer getUserId() {
 		return userId;
 	}
-
-
 
 	public String getPassword() {
 		return password;
