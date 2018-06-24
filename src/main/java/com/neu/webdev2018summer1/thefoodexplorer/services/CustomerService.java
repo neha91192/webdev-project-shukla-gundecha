@@ -2,6 +2,7 @@ package com.neu.webdev2018summer1.thefoodexplorer.services;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -103,6 +104,24 @@ public class CustomerService {
 	@GetMapping("/api/customer/profile")
 	public Customer profile(HttpServletRequest request, HttpSession session) {
 		return (Customer) session.getAttribute("currentUser");
+	}
+
+	@PutMapping("/api/follow/{userId}")
+	public Customer addFollower(@PathVariable("customerId") int userId, HttpSession session,
+			HttpServletResponse response) {
+		Customer user = (Customer) session.getAttribute("currentUser");
+		if (user != null && user.getUserId() != null) {
+			Optional<Customer> follower = customerRepository.findById(user.getUserId());
+			Optional<Customer> userToFollow = customerRepository.findById(userId);
+			if (follower.isPresent()) {
+				userToFollow.get().getFollowers().add(follower.get());
+				follower.get().getFollowing().add(userToFollow.get());
+				return follower.get();
+			}
+		}
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		return user;
+
 	}
 
 }

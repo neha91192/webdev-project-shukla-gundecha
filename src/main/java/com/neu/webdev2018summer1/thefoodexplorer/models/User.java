@@ -9,9 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,31 +39,6 @@ public class User {
 	private String state;
 	private String pincode;
 	private String bio;
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "follower", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
-			@JoinColumn(name = "followerId") })
-	List<User> followers;
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "follower", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
-	List<User> following;
-
-	public List<User> getFollowers() {
-		return followers;
-	}
-
-	public void setFollowers(List<User> followers) {
-		this.followers = followers;
-	}
-
-	public List<User> getFollowing() {
-		return following;
-	}
-
-	public void setFollowing(List<User> following) {
-		this.following = following;
-	}
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
