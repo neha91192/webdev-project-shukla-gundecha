@@ -1,5 +1,6 @@
 package com.neu.webdev2018summer1.thefoodexplorer.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -7,7 +8,7 @@ import javax.persistence.OneToOne;
 public class Owner extends User {
 	private String ownerId;
 	private int term;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Restaurant restaurant;
 
 	public String getOwnerId() {
