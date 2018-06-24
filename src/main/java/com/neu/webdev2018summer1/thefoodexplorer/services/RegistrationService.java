@@ -13,6 +13,7 @@ import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Blogger;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Owner;
+import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.models.User;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.BloggerRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.CustomerRepository;
@@ -44,7 +45,7 @@ public class RegistrationService {
 			customer.setUsername(user.getUsername());
 			customer.setPassword(passwordEncoder.encode(user.getPassword()));
 			customer.setUserType(UserType.Customer);
-		
+
 			newUser = customerRepository.save(customer);
 
 		}
@@ -55,7 +56,7 @@ public class RegistrationService {
 			blogger.setUsername(user.getUsername());
 			blogger.setPassword(passwordEncoder.encode(user.getPassword()));
 			blogger.setUserType(UserType.Blogger);
-		
+
 			newUser = bloggerRepository.save(blogger);
 
 		}
@@ -66,11 +67,14 @@ public class RegistrationService {
 			owner.setUsername(user.getUsername());
 			owner.setPassword(passwordEncoder.encode(user.getPassword()));
 			owner.setUserType(UserType.Owner);
-		
+			Restaurant restaurant = new Restaurant();
+			restaurant.setRestaurantId(owner.getRestaurant().getRestaurantId());
+			owner.setRestaurant(restaurant);
+
 			newUser = ownerRepository.save(owner);
 
 		}
-		session.setAttribute("currentUser", user);
+		session.setAttribute("currentUser", newUser);
 		return newUser;
 	}
 

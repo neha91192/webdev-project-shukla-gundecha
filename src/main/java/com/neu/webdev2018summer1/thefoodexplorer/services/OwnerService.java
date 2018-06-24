@@ -28,20 +28,20 @@ public class OwnerService {
 	@Autowired
 	RestaurantRepository restaurantRepository;
 
-	@PostMapping("/api/owner")
-	public Owner createOwner(@RequestBody Owner owner, HttpServletResponse response, HttpSession session) {
+	@PostMapping("/api/owner/{restaurantId}")
+	public Owner createOwner(@RequestBody Owner owner, @PathVariable("restaurantId") int restaurantId,
+			HttpServletResponse response, HttpSession session) {
 		Owner newOwnerObj = null;
-		if (owner.getRestaurant() != null && owner.getRestaurant().getRestaurantId() != 0) {
-			Iterable<Owner> result = ownerRepository.findOwnerForRestaurant(owner.getRestaurant().getRestaurantId());
-			for (Owner ownerData : result) {
-				response.setStatus(HttpServletResponse.SC_CONFLICT);
-				return null;
-			}
-			owner.setUserType(UserType.Owner);
-			newOwnerObj = ownerRepository.save(owner);
-			session.setAttribute("currentUser", newOwnerObj);
 
+		Iterable<Owner> result = ownerRepository.findOwnerForRestaurant(restaurantId);
+		for (Owner ownerData : result) {
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
+			return null;
 		}
+		owner.setUserType(UserType.Owner);
+		newOwnerObj = ownerRepository.save(owner);
+		session.setAttribute("currentUser", newOwnerObj);
+
 		return newOwnerObj;
 	}
 

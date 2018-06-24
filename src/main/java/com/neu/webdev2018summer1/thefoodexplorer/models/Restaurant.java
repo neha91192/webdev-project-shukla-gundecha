@@ -26,7 +26,7 @@ public class Restaurant {
 	/**
 	 * Owner of this restaurant
 	 */
-	@OneToOne(mappedBy = "restaurant")
+	@OneToOne(mappedBy = "restaurant", cascade = CascadeType.PERSIST)
 	private Owner owner;
 	/**
 	 * Name of this restaurant
