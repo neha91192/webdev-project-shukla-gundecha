@@ -39,7 +39,13 @@ public class RegistrationService {
 	public User register(@RequestBody User user, HttpSession session, HttpServletResponse response) {
 		User newUser = new User();
 		Iterable<User> result = userRepository.findUserByUsername(user.getUsername());
-		if (result == null) {
+		boolean isPresent= false;
+		for (User userval : result) {
+			isPresent = true;
+			break;
+
+		}
+		if (!isPresent) {
 
 			// add switch case later
 

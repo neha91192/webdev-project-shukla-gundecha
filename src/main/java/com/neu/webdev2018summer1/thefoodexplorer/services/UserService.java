@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
+import com.neu.webdev2018summer1.thefoodexplorer.models.Owner;
 import com.neu.webdev2018summer1.thefoodexplorer.models.User;
+import com.neu.webdev2018summer1.thefoodexplorer.repositories.CustomerRepository;
+import com.neu.webdev2018summer1.thefoodexplorer.repositories.OwnerRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.UserRepository;
 
 @RestController
@@ -28,6 +32,10 @@ public class UserService {
 	UserRepository repository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private CustomerRepository customerRepository;
+	@Autowired
+	private OwnerRepository ownerRepository;
 
 	public User profile(HttpServletRequest request, HttpSession session) {
 		User user = (User) session.getAttribute("currentUser");
@@ -77,13 +85,28 @@ public class UserService {
 
 	@PostMapping("api/user")
 	public User createUser(@RequestBody User user) {
-		User newUser = new User();
-		newUser.setFirstName(user.getFirstName());
-		newUser.setLastName(user.getLastName());
-		newUser.setUsername(user.getUsername());
-		newUser.setUserType(user.getUserType());
-		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-		return repository.save(newUser); // insert data into the table in database
+		
+		System.out.println("user type:"+ user.getUserType());
+		//Customer 
+		if(user.getUserType().equals(0)) {
+			Customer customer = customerRepository.save((Customer)user);
+			customer.setPassword(null);
+			return customer;
+		}
+		//Owner
+		else if(user.getUserType().equals(1)) {
+			Owner owner = ownerRepository.save((Owner)user);
+			owner.setPassword(null);
+			return owner;
+		}
+		return null;
+//		User newUser = new User();
+//		newUser.setFirstName(user.getFirstName());
+//		newUser.setLastName(user.getLastName());
+//		newUser.setUsername(user.getUsername());
+//		newUser.setUserType(user.getUserType());
+//		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+//		return repository.save(newUser); // insert data into the table in database
 	}
 
 	@DeleteMapping("api/user/{userId}")
