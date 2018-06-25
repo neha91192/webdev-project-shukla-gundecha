@@ -13,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -39,7 +40,7 @@ public class Review {
 	 * Author of this review
 	 */
 	@ManyToOne
-	@JsonIgnore
+	@JsonBackReference
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", insertable = true, updatable = true)
 	private User user;
 	/**

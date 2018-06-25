@@ -97,11 +97,10 @@ public class User {
 	 */
 	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
 	private List<Reservation> reservations;
+
 	/**
 	 * One user write multiple reviews
 	 */
-	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
-	private List<Review> reviews;
 
 	public Integer getUserId() {
 		return userId;
@@ -179,24 +178,6 @@ public class User {
 	 */
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
-	}
-
-	/**
-	 * Gets list of reviews written by this user
-	 * 
-	 * @return
-	 */
-	public List<Review> getReviews() {
-		return reviews;
-	}
-
-	/**
-	 * Sets list of reviews written by this user
-	 * 
-	 * @param reviews
-	 */
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
 	}
 
 	public String getUsername() {

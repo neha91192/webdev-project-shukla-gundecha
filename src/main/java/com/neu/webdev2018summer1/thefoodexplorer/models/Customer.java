@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Customer extends User {
@@ -33,6 +35,10 @@ public class Customer extends User {
 	@JoinTable(name = "follower", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
 	List<Customer> following;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	private List<Review> reviews;
+
 	public List<Customer> getFollowers() {
 		return followers;
 	}
@@ -47,6 +53,24 @@ public class Customer extends User {
 
 	public void setFollowing(List<Customer> following) {
 		this.following = following;
+	}
+
+	/**
+	 * Gets list of reviews written by this user
+	 * 
+	 * @return
+	 */
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	/**
+	 * Sets list of reviews written by this user
+	 * 
+	 * @param reviews
+	 */
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 }
