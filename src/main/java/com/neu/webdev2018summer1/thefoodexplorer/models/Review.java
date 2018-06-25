@@ -43,7 +43,7 @@ public class Review {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", insertable = true, updatable = true)
-	private User user;
+	private Customer customer;
 	/**
 	 * Review content
 	 */
@@ -118,8 +118,8 @@ public class Review {
 	 * 
 	 * @return
 	 */
-	public User getUser() {
-		return user;
+	public Customer getCustomer() {
+		return customer;
 	}
 
 	/**
@@ -127,8 +127,8 @@ public class Review {
 	 * 
 	 * @param user
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	/**

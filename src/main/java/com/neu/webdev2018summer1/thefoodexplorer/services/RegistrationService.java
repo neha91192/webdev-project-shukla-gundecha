@@ -1,5 +1,6 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,46 +36,52 @@ public class RegistrationService {
 	private PasswordEncoder passwordEncoder;
 
 	@PostMapping("/api/register")
-	public User register(@RequestBody User user, HttpSession session) {
+	public User register(@RequestBody User user, HttpSession session, HttpServletResponse response) {
 		User newUser = new User();
-		// add switch case later
+		Iterable<User> result = userRepository.findUserByUsername(user.getUsername());
+		if (result == null) {
 
-		if (user.getUserType().equals(UserType.Customer)) {
-			Customer customer = new Customer();
-			customer.setFirstName(user.getFirstName());
-			customer.setUsername(user.getUsername());
-			customer.setPassword(passwordEncoder.encode(user.getPassword()));
-			customer.setUserType(UserType.Customer);
+			// add switch case later
 
-			newUser = customerRepository.save(customer);
+			if (user.getUserType().equals(UserType.Customer)) {
+				Customer customer = new Customer();
+				customer.setFirstName(user.getFirstName());
+				customer.setUsername(user.getUsername());
+				customer.setPassword(passwordEncoder.encode(user.getPassword()));
+				customer.setUserType(UserType.Customer);
 
+				newUser = customerRepository.save(customer);
+
+			}
+
+			if (user.getUserType().equals(UserType.Blogger)) {
+				Blogger blogger = new Blogger();
+				blogger.setFirstName(user.getFirstName());
+				blogger.setUsername(user.getUsername());
+				blogger.setPassword(passwordEncoder.encode(user.getPassword()));
+				blogger.setUserType(UserType.Blogger);
+
+				newUser = bloggerRepository.save(blogger);
+
+			}
+
+			if (user.getUserType().equals(UserType.Owner)) {
+				Owner owner = new Owner();
+				owner.setFirstName(user.getFirstName());
+				owner.setUsername(user.getUsername());
+				owner.setPassword(passwordEncoder.encode(user.getPassword()));
+				owner.setUserType(UserType.Owner);
+				Restaurant restaurant = new Restaurant();
+				restaurant.setRestaurantId(owner.getRestaurant().getRestaurantId());
+				owner.setRestaurant(restaurant);
+
+				newUser = ownerRepository.save(owner);
+
+			}
+			session.setAttribute("currentUser", newUser);
+		} else {
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
 		}
-
-		if (user.getUserType().equals(UserType.Blogger)) {
-			Blogger blogger = new Blogger();
-			blogger.setFirstName(user.getFirstName());
-			blogger.setUsername(user.getUsername());
-			blogger.setPassword(passwordEncoder.encode(user.getPassword()));
-			blogger.setUserType(UserType.Blogger);
-
-			newUser = bloggerRepository.save(blogger);
-
-		}
-
-		if (user.getUserType().equals(UserType.Owner)) {
-			Owner owner = new Owner();
-			owner.setFirstName(user.getFirstName());
-			owner.setUsername(user.getUsername());
-			owner.setPassword(passwordEncoder.encode(user.getPassword()));
-			owner.setUserType(UserType.Owner);
-			Restaurant restaurant = new Restaurant();
-			restaurant.setRestaurantId(owner.getRestaurant().getRestaurantId());
-			owner.setRestaurant(restaurant);
-
-			newUser = ownerRepository.save(owner);
-
-		}
-		session.setAttribute("currentUser", newUser);
 		return newUser;
 	}
 

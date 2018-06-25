@@ -40,6 +40,23 @@ public class UserService {
 		return user;
 	}
 
+	/**
+	 * Returns users present in the repository by querying on username.
+	 * 
+	 * @return List of User objects containing user details
+	 */
+
+	public User findUserByUsername(String username) {
+		User user = null;
+		Iterable<User> result = repository.findUserByUsername(username);
+		for (User userval : result) {
+			user = userval;
+			break;
+
+		}
+		return user;
+	}
+
 	@GetMapping("/api/profile")
 	public User profile(HttpServletRequest request, HttpSession session, HttpServletResponse response) {
 		User user = (User) session.getAttribute("currentUser");
@@ -60,7 +77,13 @@ public class UserService {
 
 	@PostMapping("api/user")
 	public User createUser(@RequestBody User user) {
-		return repository.save(user); // insert data into the table in database
+		User newUser = new User();
+		newUser.setFirstName(user.getFirstName());
+		newUser.setLastName(user.getLastName());
+		newUser.setUsername(user.getUsername());
+		newUser.setUserType(user.getUserType());
+		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		return repository.save(newUser); // insert data into the table in database
 	}
 
 	@DeleteMapping("api/user/{userId}")
@@ -83,7 +106,9 @@ public class UserService {
 			user.setCity(newUser.getCity());
 			user.setCountry(newUser.getCountry());
 			user.setEmailId(newUser.getEmailId());
-			user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+			if (newUser.getPassword() != user.getPassword()) {
+				user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+			}
 			user.setPincode(newUser.getPincode());
 			user.setStreet(newUser.getStreet());
 			user.setUserType(newUser.getUserType());
