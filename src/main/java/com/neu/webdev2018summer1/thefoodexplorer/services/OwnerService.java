@@ -42,14 +42,16 @@ public class OwnerService {
 			response.setStatus(HttpServletResponse.SC_CONFLICT);
 			return null;
 		}
-		
+
 		Owner newOwner = new Owner();
 		newOwner.setFirstName(owner.getFirstName());
 		newOwner.setUsername(owner.getUsername());
 		newOwner.setPassword(passwordEncoder.encode(owner.getPassword()));
 		newOwner.setUserType(UserType.Owner);
 		Restaurant restaurant = new Restaurant();
-		restaurant.setRestaurantId(owner.getRestaurant().getRestaurantId());
+		restaurant.setName(owner.getRestaurant().getName());
+		restaurant.setLocationArea(owner.getRestaurant().getLocationArea());
+		restaurant.setRestaurantId(restaurantId);
 		newOwner.setRestaurant(restaurant);
 
 		newOwnerObj = ownerRepository.save(newOwner);
