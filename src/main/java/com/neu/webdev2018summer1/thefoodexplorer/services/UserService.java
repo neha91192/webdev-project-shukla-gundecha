@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
+import com.neu.webdev2018summer1.thefoodexplorer.models.Blogger;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Owner;
+import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.models.User;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.CustomerRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.OwnerRepository;
@@ -84,29 +87,46 @@ public class UserService {
 	}
 
 	@PostMapping("api/user")
-	public User createUser(@RequestBody User user) {
+	public User createUser(@RequestBody User user, HttpSession session, HttpServletResponse response) {
 		
-		System.out.println("user type:"+ user.getUserType());
-		//Customer 
-		if(user.getUserType().equals(0)) {
-			Customer customer = customerRepository.save((Customer)user);
-			customer.setPassword(null);
-			return customer;
+		User newUser = new User();
+		Iterable<User> result = repository.findUserByUsername(user.getUsername());
+		boolean isPresent= false;
+		for (User userval : result) {
+			isPresent = true;
+			break;
+
 		}
-		//Owner
-		else if(user.getUserType().equals(1)) {
-			Owner owner = ownerRepository.save((Owner)user);
-			owner.setPassword(null);
-			return owner;
+		if (!isPresent) {
+
+			// add switch case later
+
+			if (user.getUserType().equals(UserType.Customer)) {
+				Customer customer = new Customer();
+				customer.setFirstName(user.getFirstName());
+				customer.setLastName(user.getLastName());
+				customer.setUsername(user.getUsername());
+				customer.setPassword(passwordEncoder.encode(user.getPassword()));
+				customer.setUserType(UserType.Customer);
+
+				newUser = customerRepository.save(customer);
+
+			}
+
+			if (user.getUserType().equals(UserType.Owner)) {
+				Owner owner = new Owner();
+				owner.setFirstName(user.getFirstName());
+				owner.setUsername(user.getUsername());
+				owner.setPassword(passwordEncoder.encode(user.getPassword()));
+				owner.setUserType(UserType.Owner);
+
+				newUser = ownerRepository.save(owner);
+
+			}
+		} else {
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
 		}
-		return null;
-//		User newUser = new User();
-//		newUser.setFirstName(user.getFirstName());
-//		newUser.setLastName(user.getLastName());
-//		newUser.setUsername(user.getUsername());
-//		newUser.setUserType(user.getUserType());
-//		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-//		return repository.save(newUser); // insert data into the table in database
+		return newUser;
 	}
 
 	@DeleteMapping("api/user/{userId}")
