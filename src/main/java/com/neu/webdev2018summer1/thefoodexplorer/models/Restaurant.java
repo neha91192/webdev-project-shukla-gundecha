@@ -46,7 +46,7 @@ public class Restaurant {
 	/**
 	 * One restaurant has many reservations
 	 */
-	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "restaurant")
 	private List<Reservation> reservations;
 	/**
 	 * One restaurant has many reviews
