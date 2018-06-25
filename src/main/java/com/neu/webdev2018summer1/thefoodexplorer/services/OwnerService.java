@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Owner;
+import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.OwnerRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.RestaurantRepository;
 
@@ -27,6 +29,8 @@ public class OwnerService {
 	OwnerRepository ownerRepository;
 	@Autowired
 	RestaurantRepository restaurantRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@PostMapping("/api/owner/{restaurantId}")
 	public Owner createOwner(@RequestBody Owner owner, @PathVariable("restaurantId") int restaurantId,
@@ -38,8 +42,17 @@ public class OwnerService {
 			response.setStatus(HttpServletResponse.SC_CONFLICT);
 			return null;
 		}
-		owner.setUserType(UserType.Owner);
-		newOwnerObj = ownerRepository.save(owner);
+		
+		Owner newOwner = new Owner();
+		newOwner.setFirstName(owner.getFirstName());
+		newOwner.setUsername(owner.getUsername());
+		newOwner.setPassword(passwordEncoder.encode(owner.getPassword()));
+		newOwner.setUserType(UserType.Owner);
+		Restaurant restaurant = new Restaurant();
+		restaurant.setRestaurantId(owner.getRestaurant().getRestaurantId());
+		newOwner.setRestaurant(restaurant);
+
+		newOwnerObj = ownerRepository.save(newOwner);
 		session.setAttribute("currentUser", newOwnerObj);
 
 		return newOwnerObj;
