@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Owner;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
+import com.neu.webdev2018summer1.thefoodexplorer.models.User;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.OwnerRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.RestaurantRepository;
 
@@ -55,7 +56,7 @@ public class OwnerService {
 		newOwner.setRestaurant(restaurant);
 
 		newOwnerObj = ownerRepository.save(newOwner);
-		session.setAttribute("currentUser", newOwnerObj);
+		session.setAttribute("currentUser", (User) newOwnerObj);
 
 		return newOwnerObj;
 	}
