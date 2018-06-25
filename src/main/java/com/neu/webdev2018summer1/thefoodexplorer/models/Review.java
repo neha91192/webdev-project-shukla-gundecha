@@ -42,7 +42,7 @@ public class Review {
 	@ManyToOne
 	@JsonBackReference
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", insertable = true, updatable = true)
-	private User user;
+	private Customer user;
 	/**
 	 * Review content
 	 */
