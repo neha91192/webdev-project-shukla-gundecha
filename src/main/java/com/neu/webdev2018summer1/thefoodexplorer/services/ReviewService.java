@@ -37,9 +37,8 @@ public class ReviewService {
 	 * @param review
 	 * @return
 	 */
-	@PostMapping("/api/restaurant/{restaurantId}/review")
-	public Review createReview(@RequestBody Review review, HttpSession session,
-			@PathVariable("restaurantId") int restaurantId, HttpServletResponse response) {
+	@PostMapping("/api/review")
+	public Review createReview(@RequestBody Review review, HttpSession session, HttpServletResponse response) {
 
 		User user = (User) session.getAttribute("currentUser");
 		if (user != null) {
@@ -47,7 +46,7 @@ public class ReviewService {
 			newUser.setUserId(user.getUserId());
 			review.setCustomer(newUser);
 			Restaurant restaurant = new Restaurant();
-			restaurant.setRestaurantId(restaurantId);
+			restaurant.setRestaurantId(review.getRestaurant().getRestaurantId());
 			review.setRestaurant(restaurant);
 			if (restaurant.getReviews() == null) {
 				List<Review> reviews = new ArrayList<Review>();
