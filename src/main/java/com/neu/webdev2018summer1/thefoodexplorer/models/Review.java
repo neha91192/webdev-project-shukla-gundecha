@@ -28,7 +28,7 @@ public class Review {
 	 * Restaurant for which review has be written
 	 */
 	@ManyToOne
-	@JsonManagedReference
+	@JsonManagedReference(value = "restaurant-reference")
 	@JoinColumn(name = "restaurant_id", referencedColumnName = "restaurantId", insertable = true, updatable = true)
 	private Restaurant restaurant;
 	/**
@@ -39,7 +39,7 @@ public class Review {
 	 * Author of this review
 	 */
 	@ManyToOne
-	@JsonManagedReference
+	@JsonManagedReference(value = "customer-reference")
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", insertable = true, updatable = true)
 	private Customer customer;
 	/**

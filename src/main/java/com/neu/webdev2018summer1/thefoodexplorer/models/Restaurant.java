@@ -51,7 +51,7 @@ public class Restaurant {
 	/**
 	 * One restaurant has many reviews
 	 */
-	@JsonBackReference
+	@JsonBackReference(value = "restaurant-reference")
 	@OneToMany(mappedBy = "restaurant", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Review> reviews;
 	/**

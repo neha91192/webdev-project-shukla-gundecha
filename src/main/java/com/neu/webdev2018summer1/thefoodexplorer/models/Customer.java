@@ -35,7 +35,7 @@ public class Customer extends User {
 	@JoinTable(name = "follower", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
 	List<Customer> following;
 
-	@JsonBackReference
+	@JsonBackReference(value = "customer-reference")
 	@OneToMany(mappedBy = "customer", orphanRemoval = true, cascade = CascadeType.PERSIST)
 	private List<Review> reviews;
 
