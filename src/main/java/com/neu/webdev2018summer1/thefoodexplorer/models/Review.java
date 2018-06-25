@@ -117,7 +117,7 @@ public class Review {
 	 * 
 	 * @return
 	 */
-	public User getUser() {
+	public Customer getUser() {
 		return user;
 	}
 
@@ -126,7 +126,7 @@ public class Review {
 	 * 
 	 * @param user
 	 */
-	public void setUser(User user) {
+	public void setUser(Customer user) {
 		this.user = user;
 	}
 
