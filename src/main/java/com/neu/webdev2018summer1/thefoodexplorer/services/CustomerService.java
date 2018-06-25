@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
+import com.neu.webdev2018summer1.thefoodexplorer.models.User;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.CustomerRepository;
 
 @RestController
@@ -102,9 +103,14 @@ public class CustomerService {
 		customerRepository.deleteById(id);
 	}
 
-	@GetMapping("/api/customer/profile")
-	public Customer profile(HttpServletRequest request, HttpSession session) {
-		return (Customer) session.getAttribute("currentUser");
+	@GetMapping("/api/customer/{userId}")
+	public Customer findUser(HttpServletRequest request, HttpSession session, @PathVariable("userId") int userId) {
+		Optional<Customer> userList = customerRepository.findById(userId);
+		if (userList.isPresent()) {
+			return userList.get();
+		} else {
+			return null;
+		}
 	}
 
 	@PostMapping("/api/follow/{userId}")
