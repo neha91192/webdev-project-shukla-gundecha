@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Review;
+import com.neu.webdev2018summer1.thefoodexplorer.models.User;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.RestaurantRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.ReviewRepository;
 
@@ -41,7 +41,7 @@ public class ReviewService {
 	public Review createReview(@RequestBody Review review, HttpSession session,
 			@PathVariable("restaurantId") int restaurantId, HttpServletResponse response) {
 
-		Customer user = (Customer) session.getAttribute("currentUser");
+		User user = (User) session.getAttribute("currentUser");
 		if (user != null) {
 			com.neu.webdev2018summer1.thefoodexplorer.models.Customer newUser = new com.neu.webdev2018summer1.thefoodexplorer.models.Customer();
 			newUser.setUserId(user.getUserId());
