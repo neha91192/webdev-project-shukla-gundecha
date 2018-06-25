@@ -94,7 +94,8 @@ public class ReviewService {
 	 */
 	@GetMapping("/api/restaurant/{restaurantId}/review")
 	public Iterable<Review> findAllReviewsForRestaurant(@PathVariable("restaurantId") int restaurantId) {
-		return reviewRepository.searchReviewByRestaurant(restaurantId);
+		Iterable<Review> response = reviewRepository.searchReviewByRestaurant(restaurantId);
+		return response;
 	}
 
 	/**
