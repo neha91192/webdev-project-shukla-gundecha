@@ -75,6 +75,8 @@ public class OwnerService {
 			owner.setDateOfBirth(newOwner.getDateOfBirth());
 			owner.setMobileNumber(newOwner.getMobileNumber());
 			owner.setTerm(newOwner.getTerm());
+			owner.setCity(newOwner.getCity());
+			owner.setCountry(newOwner.getCountry());
 
 			ownerRepository.save(owner);
 			return owner;

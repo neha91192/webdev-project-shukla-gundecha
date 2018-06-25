@@ -95,7 +95,7 @@ public class CustomerService {
 			customerRepository.save(customer);
 			return customer;
 		} else
-			return null;
+			return data.get();
 	}
 
 	@DeleteMapping("/api/customer/{customerId}")
@@ -133,7 +133,7 @@ public class CustomerService {
 
 	@GetMapping("/api/follower")
 	public List<Customer> findFollowers(HttpSession session, HttpServletResponse response) {
-		Customer user = (Customer) session.getAttribute("currentUser");
+		User user = (User) session.getAttribute("currentUser");
 		if (user != null && user.getUserId() != null) {
 			Optional<Customer> customer = customerRepository.findById(user.getUserId());
 			if (customer.isPresent()) {
