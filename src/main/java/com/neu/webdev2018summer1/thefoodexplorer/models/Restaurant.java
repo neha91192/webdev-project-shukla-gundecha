@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Restaurant {
 
@@ -26,6 +28,7 @@ public class Restaurant {
 	/**
 	 * Owner of this restaurant
 	 */
+	@JsonBackReference
 	@OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
 	private Owner owner;
 	/**

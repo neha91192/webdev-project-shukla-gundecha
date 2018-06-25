@@ -4,10 +4,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Owner extends User {
 	private String ownerId;
 	private int term;
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Restaurant restaurant;
 

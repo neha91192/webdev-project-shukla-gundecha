@@ -36,7 +36,7 @@ public class Customer extends User {
 	List<Customer> following;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "customer", orphanRemoval = true, cascade = CascadeType.PERSIST)
 	private List<Review> reviews;
 
 	public List<Customer> getFollowers() {
