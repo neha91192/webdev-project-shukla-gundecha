@@ -43,7 +43,7 @@ public class ReviewService {
 
 		Customer user = (Customer) session.getAttribute("currentUser");
 		if (user != null) {
-			com.neu.webdev2018summer1.thefoodexplorer.models.Customer newUser = new com.neu.webdev2018summer1.thefoodexplorer.models.Customer();
+			com.neu.webdev2018summer1.thefoodexplorer.models.User newUser = new com.neu.webdev2018summer1.thefoodexplorer.models.User();
 			newUser.setUserId(user.getUserId());
 			review.setUser(newUser);
 			Restaurant restaurant = new Restaurant();

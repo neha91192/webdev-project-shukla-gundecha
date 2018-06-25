@@ -42,7 +42,7 @@ public class Review {
 	@ManyToOne
 	@JsonBackReference
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", insertable = true, updatable = true)
-	private Customer user;
+	private User user;
 	/**
 	 * Review content
 	 */
@@ -117,7 +117,7 @@ public class Review {
 	 * 
 	 * @return
 	 */
-	public Customer getUser() {
+	public User getUser() {
 		return user;
 	}
 
@@ -126,7 +126,7 @@ public class Review {
 	 * 
 	 * @param user
 	 */
-	public void setUser(Customer user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
