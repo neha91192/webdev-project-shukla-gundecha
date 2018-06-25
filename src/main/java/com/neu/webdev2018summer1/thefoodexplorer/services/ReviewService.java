@@ -48,6 +48,8 @@ public class ReviewService {
 			review.setCustomer(newUser);
 			Restaurant restaurant = new Restaurant();
 			restaurant.setRestaurantId(restaurantId);
+			restaurant.setName(review.getRestaurant().getName());
+			restaurant.setLocationArea(review.getRestaurant().getLocationArea());
 			review.setRestaurant(restaurant);
 			if (restaurant.getReviews() == null) {
 				List<Review> reviews = new ArrayList<Review>();
