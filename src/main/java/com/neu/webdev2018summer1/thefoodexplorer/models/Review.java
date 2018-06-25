@@ -13,8 +13,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Review {
 
@@ -28,7 +26,7 @@ public class Review {
 	 * Restaurant for which review has be written
 	 */
 	@ManyToOne
-	@JsonManagedReference(value = "restaurant-reference")
+	// @JsonManagedReference(value = "restaurant-reference")
 	@JoinColumn(name = "restaurant_id", referencedColumnName = "restaurantId", insertable = true, updatable = true)
 	private Restaurant restaurant;
 	/**
@@ -39,7 +37,7 @@ public class Review {
 	 * Author of this review
 	 */
 	@ManyToOne
-	@JsonManagedReference(value = "customer-reference")
+	// @JsonManagedReference(value = "customer-reference")
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", insertable = true, updatable = true)
 	private Customer customer;
 	/**
