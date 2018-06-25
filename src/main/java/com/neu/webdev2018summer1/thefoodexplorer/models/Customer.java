@@ -9,10 +9,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "userId")
 public class Customer extends User {
 	private String customerId;
 
@@ -35,7 +37,6 @@ public class Customer extends User {
 	@JoinTable(name = "follower", joinColumns = @JoinColumn(name = "followerId"), inverseJoinColumns = @JoinColumn(name = "userId"))
 	List<Customer> following;
 
-	@JsonManagedReference
 	@OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.PERSIST)
 	private List<Review> reviews;
 

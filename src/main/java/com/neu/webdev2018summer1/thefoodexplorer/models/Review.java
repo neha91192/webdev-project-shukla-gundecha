@@ -13,9 +13,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "reviewId")
 @Entity
 public class Review {
 
@@ -40,7 +42,6 @@ public class Review {
 	 * Author of this review
 	 */
 	@ManyToOne
-	@JsonBackReference
 	@JoinColumn(name = "user_id", referencedColumnName = "userId", insertable = true, updatable = true)
 	private User user;
 	/**
