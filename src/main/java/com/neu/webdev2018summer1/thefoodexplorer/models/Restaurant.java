@@ -29,7 +29,7 @@ public class Restaurant {
 	 * Owner of this restaurant
 	 */
 	@JsonBackReference
-	@OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "restaurant")
 	private Owner owner;
 	/**
 	 * Name of this restaurant
