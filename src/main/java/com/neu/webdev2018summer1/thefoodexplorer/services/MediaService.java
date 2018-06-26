@@ -36,8 +36,7 @@ public class MediaService {
 	public Media createMedia(@RequestBody Media media, @PathVariable("restaurantId") int id) {
 		Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
 		if (restaurantData.isPresent()) {
-			Restaurant restaurant = restaurantData.get();
-			media.setRestaurant(restaurant);
+			media.setRestaurant(restaurantData.get());
 		} else {
 			Restaurant restaurantObj = new Restaurant();
 			restaurantObj.setRestaurantId(id);
