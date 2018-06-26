@@ -148,9 +148,9 @@ public class UserService {
 			user.setCity(newUser.getCity());
 			user.setCountry(newUser.getCountry());
 			user.setEmailId(newUser.getEmailId());
-			if (newUser.getPassword() != user.getPassword()) {
-				user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-			}
+			// if (newUser.getPassword() != user.getPassword()) {
+			// user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+			// }
 			user.setPincode(newUser.getPincode());
 			user.setStreet(newUser.getStreet());
 			user.setUserType(newUser.getUserType());
