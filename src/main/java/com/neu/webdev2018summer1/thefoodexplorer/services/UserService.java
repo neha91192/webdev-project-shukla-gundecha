@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neu.webdev2018summer1.thefoodexplorer.enumerations.UserType;
-import com.neu.webdev2018summer1.thefoodexplorer.models.Blogger;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
 import com.neu.webdev2018summer1.thefoodexplorer.models.Owner;
-import com.neu.webdev2018summer1.thefoodexplorer.models.Restaurant;
 import com.neu.webdev2018summer1.thefoodexplorer.models.User;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.CustomerRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.OwnerRepository;
@@ -88,10 +86,10 @@ public class UserService {
 
 	@PostMapping("api/user")
 	public User createUser(@RequestBody User user, HttpSession session, HttpServletResponse response) {
-		
+
 		User newUser = new User();
 		Iterable<User> result = repository.findUserByUsername(user.getUsername());
-		boolean isPresent= false;
+		boolean isPresent = false;
 		for (User userval : result) {
 			isPresent = true;
 			break;
@@ -171,6 +169,18 @@ public class UserService {
 			return data.get();
 		else
 			return null;
+	}
+
+	@PutMapping("/api/password/{userId}")
+	public User updatePassword(@PathVariable("customerId") int id, @RequestBody User user) {
+		Optional<User> data = repository.findById(id);
+		if (data.isPresent()) {
+			User olduser = data.get();
+			olduser.setPassword(passwordEncoder.encode(user.getPassword()));
+			repository.save(olduser);
+			return user;
+		} else
+			return data.get();
 	}
 
 }
