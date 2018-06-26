@@ -65,6 +65,32 @@ public class OwnerService {
 		return ownerRepository.findAll();
 	}
 
+	@PostMapping("/api/owner")
+	public Owner createOwnerByAdmin(@RequestBody Owner owner, HttpServletResponse response, HttpSession session) {
+		Owner newOwnerObj = null;
+
+		Iterable<Owner> result = ownerRepository.findOwnerForRestaurant(owner.getRestaurant().getRestaurantId());
+		for (Owner ownerData : result) {
+			response.setStatus(HttpServletResponse.SC_CONFLICT);
+			return null;
+		}
+
+		Owner newOwner = new Owner();
+		newOwner.setFirstName(owner.getFirstName());
+		newOwner.setUsername(owner.getUsername());
+		newOwner.setPassword(passwordEncoder.encode(owner.getPassword()));
+		newOwner.setUserType(UserType.Owner);
+		Restaurant restaurant = new Restaurant();
+		restaurant.setName(owner.getRestaurant().getName());
+		restaurant.setLocationArea(owner.getRestaurant().getLocationArea());
+		restaurant.setRestaurantId(owner.getRestaurant().getRestaurantId());
+		newOwner.setRestaurant(restaurant);
+
+		newOwnerObj = ownerRepository.save(newOwner);
+
+		return newOwnerObj;
+	}
+
 	@PutMapping("api/owner/{ownerId}")
 	public Owner updateOwner(@PathVariable("ownerId") int id, @RequestBody Owner newOwner) {
 		Optional<Owner> data = ownerRepository.findById(id);
