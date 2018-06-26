@@ -116,6 +116,7 @@ public class UserService {
 			if (user.getUserType().equals(UserType.Owner)) {
 				Owner owner = new Owner();
 				owner.setFirstName(user.getFirstName());
+				owner.setLastName(user.getLastName());
 				owner.setUsername(user.getUsername());
 				owner.setPassword(passwordEncoder.encode(user.getPassword()));
 				owner.setUserType(UserType.Owner);
