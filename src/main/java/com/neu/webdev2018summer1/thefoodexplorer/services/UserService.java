@@ -172,7 +172,7 @@ public class UserService {
 	}
 
 	@PutMapping("/api/password/{userId}")
-	public User updatePassword(@PathVariable("customerId") int id, @RequestBody User user) {
+	public User updatePassword(@PathVariable("userId") int id, @RequestBody User user) {
 		Optional<User> data = repository.findById(id);
 		if (data.isPresent()) {
 			User olduser = data.get();
