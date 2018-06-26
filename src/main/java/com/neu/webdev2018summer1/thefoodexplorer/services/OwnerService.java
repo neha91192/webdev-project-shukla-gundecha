@@ -117,6 +117,15 @@ public class OwnerService {
 		ownerRepository.deleteById(id);
 	}
 
+	@GetMapping("/api/owner/{ownerId}")
+	public Owner findOwner(@PathVariable("ownerId") int id) {
+		Optional<Owner> data = ownerRepository.findById(id);
+		if (data.isPresent())
+			return data.get();
+		else
+			return null;
+	}
+
 	@GetMapping("/api/owner/profile")
 	public Owner profile(HttpSession session) {
 		return (Owner) session.getAttribute("currentUser");
