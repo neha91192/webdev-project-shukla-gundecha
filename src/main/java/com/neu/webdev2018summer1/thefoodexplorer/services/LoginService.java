@@ -1,7 +1,5 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -54,14 +52,14 @@ public class LoginService {
 
 		User newUser = null;
 
-		Optional<User> result = userRepository.findById(user.getUserId());
-		if (result.isPresent()) {
+		Iterable<User> result = userRepository.findUserByEmail(user.getEmailId());
+		for (User userval : result) {
 			session.setAttribute("currentUser", user);
 			return user;
-		} else {
-			newUser = userRepository.save(user);
-			return newUser;
 		}
+		newUser = userRepository.save(user);
+		session.setAttribute("currentUser", newUser);
+		return newUser;
 
 	}
 
