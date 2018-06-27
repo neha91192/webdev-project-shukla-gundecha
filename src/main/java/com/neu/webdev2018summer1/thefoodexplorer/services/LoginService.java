@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.neu.webdev2018summer1.thefoodexplorer.models.Customer;
 import com.neu.webdev2018summer1.thefoodexplorer.models.User;
+import com.neu.webdev2018summer1.thefoodexplorer.repositories.CustomerRepository;
 import com.neu.webdev2018summer1.thefoodexplorer.repositories.UserRepository;
 
 @RestController
@@ -19,6 +21,8 @@ import com.neu.webdev2018summer1.thefoodexplorer.repositories.UserRepository;
 public class LoginService {
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	CustomerRepository customerRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -50,14 +54,16 @@ public class LoginService {
 	public User socialLogin(@RequestBody User user, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		User newUser = null;
-
-		Iterable<User> result = userRepository.findUserByEmail(user.getEmailId());
-		for (User userval : result) {
-			session.setAttribute("currentUser", user);
-			return user;
+		Customer newUser = new Customer();
+		newUser.setEmailId(user.getEmailId());
+		newUser.setFirstName(user.getFirstName());
+		newUser.setLastName(user.getLastName());
+		Iterable<Customer> result = customerRepository.findCustomerByEmail(user.getEmailId());
+		for (Customer userval : result) {
+			session.setAttribute("currentUser", userval);
+			return userval;
 		}
-		newUser = userRepository.save(user);
+		newUser = customerRepository.save(newUser);
 		session.setAttribute("currentUser", newUser);
 		return newUser;
 

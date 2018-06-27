@@ -13,4 +13,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 	@Query("SELECT u FROM Customer u WHERE u.firstName LIKE CONCAT(:firstName,'%') AND u.lastName LIKE CONCAT(:lastName,'%')")
 	Iterable<Customer> searchAND(@Param("firstName") String firstName, @Param("lastName") String lastName);
 
+	@Query("SELECT u FROM Customer u WHERE u.emailId =:emailId")
+	Iterable<Customer> findCustomerByEmail(@Param("emailId") String emailId);
+
 }
