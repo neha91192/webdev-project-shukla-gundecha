@@ -1,5 +1,7 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -44,6 +46,23 @@ public class LoginService {
 	@PostMapping("/api/logout")
 	public void logout(HttpSession session) {
 		session.invalidate();
+	}
+
+	@PostMapping("/api/socialLogin")
+	public User socialLogin(@RequestBody User user, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		User newUser = null;
+
+		Optional<User> result = userRepository.findById(user.getUserId());
+		if (result.isPresent()) {
+			session.setAttribute("currentUser", user);
+			return user;
+		} else {
+			newUser = userRepository.save(user);
+			return newUser;
+		}
+
 	}
 
 }
