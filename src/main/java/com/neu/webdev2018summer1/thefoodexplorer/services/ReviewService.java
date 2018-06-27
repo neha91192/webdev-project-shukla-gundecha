@@ -46,19 +46,31 @@ public class ReviewService {
 			com.neu.webdev2018summer1.thefoodexplorer.models.Customer newUser = new com.neu.webdev2018summer1.thefoodexplorer.models.Customer();
 			newUser.setUserId(user.getUserId());
 			review.setCustomer(newUser);
-			Restaurant restaurant = new Restaurant();
-			restaurant.setRestaurantId(restaurantId);
-			restaurant.setName(review.getRestaurant().getName());
-			restaurant.setLocationArea(review.getRestaurant().getLocationArea());
-			review.setRestaurant(restaurant);
-			if (restaurant.getReviews() == null) {
-				List<Review> reviews = new ArrayList<Review>();
-				reviews.add(review);
-				restaurant.setReviews(reviews);
+
+			Optional<Restaurant> data = restaurantRepository.findById(restaurantId);
+			if (data.isPresent()) {
+				data.get().setRestaurantId(restaurantId);
+				data.get().setName(review.getRestaurant().getName());
+				data.get().setLocationArea(review.getRestaurant().getLocationArea());
+				review.setRestaurant(data.get());
+
+				if (data.get().getReviews() == null) {
+					List<Review> reviews = new ArrayList<Review>();
+					reviews.add(review);
+					data.get().setReviews(reviews);
+				} else {
+					data.get().getReviews().add(review);
+				}
+
+				restaurantRepository.save(data.get());
 			} else {
-				restaurant.getReviews().add(review);
+				Restaurant restaurant = new Restaurant();
+				restaurant.setName(review.getRestaurant().getName());
+				restaurant.setLocationArea(review.getRestaurant().getLocationArea());
+				restaurant.setRestaurantId(restaurantId);
+				review.setRestaurant(restaurant);
+				restaurantRepository.save(restaurant);
 			}
-			restaurantRepository.save(restaurant);
 
 			return review;
 		} else {
