@@ -40,6 +40,8 @@ public class MediaService {
 		} else {
 			Restaurant restaurantObj = new Restaurant();
 			restaurantObj.setRestaurantId(id);
+			restaurantObj.setName(media.getRestaurant().getName());
+			restaurantObj.setLocationArea(media.getRestaurant().getLocationArea());
 			restaurantRepository.save(restaurantObj);
 			media.setRestaurant(restaurantObj);
 		}

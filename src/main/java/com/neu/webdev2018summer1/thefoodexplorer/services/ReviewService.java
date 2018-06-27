@@ -1,7 +1,5 @@
 package com.neu.webdev2018summer1.thefoodexplorer.services;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -47,32 +45,20 @@ public class ReviewService {
 			newUser.setUserId(user.getUserId());
 			review.setCustomer(newUser);
 
-			Optional<Restaurant> data = restaurantRepository.findById(restaurantId);
-			if (data.isPresent()) {
-				data.get().setRestaurantId(restaurantId);
-				data.get().setName(review.getRestaurant().getName());
-				data.get().setLocationArea(review.getRestaurant().getLocationArea());
-				review.setRestaurant(data.get());
-
-				if (data.get().getReviews() == null) {
-					List<Review> reviews = new ArrayList<Review>();
-					reviews.add(review);
-					data.get().setReviews(reviews);
-				} else {
-					data.get().getReviews().add(review);
-				}
-
-				restaurantRepository.save(data.get());
+			Optional<Restaurant> restaurantData = restaurantRepository.findById(restaurantId);
+			if (restaurantData.isPresent()) {
+				review.setRestaurant(restaurantData.get());
 			} else {
-				Restaurant restaurant = new Restaurant();
-				restaurant.setName(review.getRestaurant().getName());
-				restaurant.setLocationArea(review.getRestaurant().getLocationArea());
-				restaurant.setRestaurantId(restaurantId);
-				review.setRestaurant(restaurant);
-				restaurantRepository.save(restaurant);
+				Restaurant restaurantObj = new Restaurant();
+				restaurantObj.setRestaurantId(restaurantId);
+				restaurantObj.setName(review.getRestaurant().getName());
+				restaurantObj.setLocationArea(review.getRestaurant().getLocationArea());
+				restaurantRepository.save(restaurantObj);
+				review.setRestaurant(restaurantObj);
 			}
+			Review newReview = reviewRepository.save(review);
+			return newReview;
 
-			return review;
 		} else {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return null;
